@@ -2,7 +2,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 8001;
-const knex = require('./db/knex');
 const routes = require('./routes');
 
 const app = express();
