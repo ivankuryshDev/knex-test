@@ -5,8 +5,8 @@ exports.up = function(knex) {
       table.integer('capacity').notNullable();
   }).createTable('reservation', (table) => {
     table.increments().primary();
-    table.timestamp('reservation_start');
-    table.timestamp('reservation_end');
+    table.timestamp('reservation_start').defaultTo(knex.fn.now());
+    table.timestamp('reservation_end').defaultTo(knex.fn.now());
     table.integer('number_of_guests');
     table.integer('table_id').unsigned().references('table.id')
   })
