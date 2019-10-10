@@ -30,7 +30,7 @@ router.post('/reservations', (res, req) => {
 })
 
 router.put('/reservations/:id', (res, req) => {
-    knex('reservation').where(id, req.params.id)
+    knex('reservation').where('id', req.params.id)
     .update({
         table_id: req.body.table_id,
         reservation_start: req.body.reservation_start,
@@ -48,7 +48,7 @@ router.put('/reservations/:id', (res, req) => {
 })
 
 router.delete('/reservations/:id', (res, req) => {
-    knex('reservation').where(id, req.params.id)
+    knex('reservation').where('id', req.params.id)
     .del()
     .then( () => {
         knex.select()
