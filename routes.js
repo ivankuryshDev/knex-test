@@ -1,5 +1,5 @@
 const express = require('express');
-
+const knex = require('./db/knex');
 const router = express.Router();
 
 router.get('/reservations/:id', (req, res) => {
@@ -13,7 +13,6 @@ router.get('/reservations/:id', (req, res) => {
 
 router.post('/reservations', (res, req) => {
     knex('reservation').insert({
-        table_id: req.body.table_id,
         reservation_start: req.body.reservation_start,
         reservation_end: req.body.reservation_end,
         number_of_guests: req.body.number_of_guests
@@ -22,6 +21,8 @@ router.post('/reservations', (res, req) => {
         .from('reservation')
         .then((reservations) => {
             res.status(201).json({reservations});
+        }).catch((err) => {
+            res.status(404).json({err});
         })
     }).catch((err) => {
         res.status(404).json({err});
