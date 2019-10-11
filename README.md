@@ -12,8 +12,11 @@ Database: MySql
 Database query builder: Knex (https://knexjs.org/) 
 
 Я підключив онлайн сервіс MySQL.
+Міграція: 
+knex migrate:latest
 
-Робити міграцію і сідити не потрібно.
+Сіддинг: 
+knex seed:run
 
 Запуск:
 
