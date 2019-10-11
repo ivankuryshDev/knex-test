@@ -25,9 +25,9 @@ Database query builder: Knex (https://knexjs.org/)
 
 - node server.js
 
-Не можу отримувати дані через req.params.data i req.body.data
+## Не можу отримувати дані через req.params.data i req.body.data
 
-В Postman (жодний запит не працює):
+## В Postman (жодний запит не працює):
 
 - [POST] Book a table:                            http://localhost:8001/reservations
 
