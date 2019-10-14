@@ -18,47 +18,40 @@ router.post('/reservations', (req, res) => {
     let new_reservation_start = new Date(req.body.reservation_start);
     let new_reservation_end = new Date(req.body.reservation_end);
 
-    // function doesOverlap(){
-    //   return (event1Start >= event2Start && event1Start <= event2End ||  
-    //   event2Start >= event1Start && event2Start <= event1End)
-    // }
-
     knex.select()
         .from('reservation')
         .innerJoin('table', 'reservation.table_id', 'table.id')
-        .where('table.capacity', '>=', req.body.number_of_guests)
-        .andWhere(() => {
+        .where('table.capacity', '>=',req.body.number_of_guests)
+        .andWhere(function() {
             this
-            .where(() => {
+            .where(function() {
               this.where('reservation_start', '>=', new_reservation_start)
               .andWhere('reservation_start', '<=',new_reservation_end)
             })
-            .orWhere(() =>{
+            .orWhere(function() {
               this.where('reservation_start', '<=', new_reservation_start)
               .andWhere('reservation_start', '>=', new_reservation_start)
             })
           })
-          
           .then((reservations) => {
             if(reservations.length === 0)
-                    res.status(404).json({err: 'Reservation not found'});
-                else
-                    res.status(200).json({reservations});
+                res.status(404).json({err: 'Reservation not found'});
           })
           
-    // .then(() => {
-    // knex('reservation').insert({
-    //     reservation_start: reservation_start,
-    //     reservation_end: reservation_end,
-    //     number_of_guests: req.body.number_of_guests
-    // })
+    .then(() => {
+        knex('reservation').insert({
+            reservation_start: new_reservation_start,
+            reservation_end: new_reservation_end,
+            number_of_guests: req.body.number_of_guests
+        })
+    })
     .catch((err) => {
         res.status(400).json({err});
     })
 })
 
 router.put('/reservations/:id', (req, res) => {
-    knex('reservation').whereIn('id', req.params.id)
+    knex('reservation').where('id', req.params.id)
     .update({
         table_id: req.body.table_id,
         reservation_start: req.body.reservation_start,
