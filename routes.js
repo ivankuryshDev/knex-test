@@ -53,18 +53,16 @@ router.post('/reservations', (req, res) => {
 })
 
 router.put('/reservations/:id', (req, res) => {
+    let new_reservation_start = new Date(req.body.reservation_start);
+    let new_reservation_end = new Date(req.body.reservation_end);
     knex('reservation').where('id', req.params.id)
     .update({
         table_id: req.body.table_id,
-        reservation_start: req.body.reservation_start,
-        reservation_end: req.body.reservation_end,
+        reservation_start: new_reservation_start,
+        reservation_end: new_reservation_end,
         number_of_guests: req.body.number_of_guests
     }).then( () => {
-        knex.select()
-        .from('reservation')
-        .then((reservations) => {
-            res.status(200).json({reservations});
-        })
+        res.status(200).json({response: 'Reservation updated successfully!'});
     }).catch((err) => {
         res.status(404).json({err});
     })
