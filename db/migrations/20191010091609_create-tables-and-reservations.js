@@ -2,6 +2,7 @@
 exports.up = (knex) => {
   return knex.schema.createTable('table', (table) => {
       table.increments().primary();
+      table.integer('number').notNullable();
       table.integer('capacity').notNullable();
   }).createTable('reservation', (table) => {
     table.increments().primary();
