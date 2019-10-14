@@ -32,22 +32,21 @@ router.post('/reservations', (req, res) => {
               this.where('reservation_start', '<=', new_reservation_start)
               .andWhere('reservation_start', '>=', new_reservation_start)
             })
-          })
-          .then((reservations) => {
+        })
+        .then((reservations) => {
             if(reservations.length === 0)
                 res.status(404).json({err: 'Reservation not found'});
-          })
-          
-    .then(() => {
-        knex('reservation').insert({
-            reservation_start: new_reservation_start,
-            reservation_end: new_reservation_end,
-            number_of_guests: req.body.number_of_guests
+        })     
+        .then(() => {
+            knex('reservation').insert({
+                reservation_start: new_reservation_start,
+                reservation_end: new_reservation_end,
+                number_of_guests: req.body.number_of_guests
+            })
         })
-    })
-    .catch((err) => {
-        res.status(400).json({err});
-    })
+        .catch((err) => {
+            res.status(400).json({err});
+        })
 })
 
 router.put('/reservations/:id', (req, res) => {
@@ -79,38 +78,3 @@ router.delete('/reservations/:id', (req, res) => {
 })
 
 module.exports = router;
-
-// let event1Start = new Date('Mon Oct 14 2019 07:00:00 GMT+0300');
-// let event1End = new Date('Mon Oct 14 2019 09:00:00 GMT+0300');
-
-// let event2Start = new Date('Mon Oct 14 2019 05:00:01 GMT+0300');
-// let event2End = new Date('Mon Oct 14 2019 07:00:00 GMT+0300');
-
-// const dateRangeOverlaps = (a_start, a_end, b_start, b_end) => {
-//   console.log(a_start);
-//   console.log(a_start.getTime());
-//   let tim = a_start.getTime() - 1000;
-//   console.log(new Date(tim));
-//     if (a_start <= b_start && b_start <= a_end) return true; // b starts in a
-//     if (a_start <= b_end   && b_end   <= a_end) return true; // b ends in a
-//     if (b_start <  a_start && a_end   <  b_end) return true; // a in b
-//     return false;
-// }
-
-// function doesOverlap(){
-//   return (event1Start >= event2Start && event1Start <= event2End ||  
-//   event2Start >= event1Start && event2Start <= event1End)
-// }
-
-// console.log(dateRangeOverlaps(event1Start, event1End, 
-// event2Start, event2End));
-// console.log(doesOverlap());
-
-
-// var myDate = new Date("2012-02-10T13:19:11+0000");
-// var offset = myDate.getTimezoneOffset() * 60 * 1000;
-
-// var withOffset = myDate.getTime();
-// var withoutOffset = withOffset - offset;
-// console.log(withOffset);
-// console.log(withoutOffset);
