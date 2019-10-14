@@ -22,7 +22,7 @@ router.post('/reservations', (req, res) => {
         .from('reservation')
         .innerJoin('table', 'reservation.table_id', 'table.id')
         .where('table.capacity', '>=',req.body.number_of_guests)
-        .andWhere(function() {
+        .where(function() {
             this
             .where(function() {
               this.where('reservation_start', '>=', new_reservation_start)
@@ -34,7 +34,7 @@ router.post('/reservations', (req, res) => {
             })
         })
         .then((reservations) => {
-            if(reservations.length === 0)
+            if(reservations.length !== 0)
                 res.status(404).json({err: 'Reservation not found'});
         })     
         .then(() => {
@@ -42,8 +42,11 @@ router.post('/reservations', (req, res) => {
                 reservation_start: new_reservation_start,
                 reservation_end: new_reservation_end,
                 number_of_guests: req.body.number_of_guests
+            }).then(() => {
+                res.status(201).json({response: 'Reservation successfull created!'})
             })
         })
+        
         .catch((err) => {
             res.status(400).json({err});
         })
