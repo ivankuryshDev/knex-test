@@ -31,7 +31,7 @@ Database query builder: Knex (https://knexjs.org/)
 
 - (працює) [GET] View reservation with the given Id:       http://localhost:8001/api/reservations/1
 
-- (не працює) [PUT] Update reservation with the given Id:     http://localhost:8001/api/reservations/1
+- (працює) [PUT] Update reservation with the given Id:     http://localhost:8001/api/reservations/1
 
 - (працює) [DELETE] Cancel reservation with the given Id   http://localhost:8001/api/reservations/1
 
