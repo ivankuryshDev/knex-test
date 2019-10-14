@@ -27,11 +27,11 @@ Database query builder: Knex (https://knexjs.org/)
 
 ### В Postman:
 
-- (є перевірка на час резервування, зберігання) [POST] Book a table:                            http://localhost:8001/api/reservations
+- (частково працює) [POST] Book a table:                            http://localhost:8001/api/reservations
 
 - (працює) [GET] View reservation with the given Id:       http://localhost:8001/api/reservations/1
 
-- (працює) [PUT] Update reservation with the given Id:     http://localhost:8001/api/reservations/1
+- (частково працює) [PUT] Update reservation with the given Id:     http://localhost:8001/api/reservations/1
 
 - (працює) [DELETE] Cancel reservation with the given Id   http://localhost:8001/api/reservations/1
 
