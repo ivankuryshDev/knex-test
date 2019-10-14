@@ -23,36 +23,36 @@ router.post('/reservations', (req, res) => {
     //   event2Start >= event1Start && event2Start <= event1End)
     // }
 
-    knex('reservation')
-    .select().where(function () {
-        this
-          .where('reservation_start', '>=', new_reservation_start)
-          .andWhere('reservation_start', '<=',new_reservation_end)
-
-          .orWhere('reservation_start', '<=', new_reservation_start)
-          .andWhere('reservation_start', '>=', new_reservation_start)
-      })
-    .then((reservation) => {
-        if(reservations.length === 0)
-            res.status(404).json({err: 'Reservation not found'});
-        else
-            res.status(200).json({reservations});
-    })
+    knex.select()
+        .from('reservation')
+        .innerJoin('table', 'reservation.table_id', 'table.id')
+        .where('table.capacity', '>=', req.body.number_of_guests)
+        .andWhere(() => {
+            this
+            .where(() => {
+              this.where('reservation_start', '>=', new_reservation_start)
+              .andWhere('reservation_start', '<=',new_reservation_end)
+            })
+            .orWhere(() =>{
+              this.where('reservation_start', '<=', new_reservation_start)
+              .andWhere('reservation_start', '>=', new_reservation_start)
+            })
+          })
+          
+          .then((reservations) => {
+            if(reservations.length === 0)
+                    res.status(404).json({err: 'Reservation not found'});
+                else
+                    res.status(200).json({reservations});
+          })
+          
+    // .then(() => {
     // knex('reservation').insert({
     //     reservation_start: reservation_start,
     //     reservation_end: reservation_end,
-    //     number_of_guests: req.body.number_of_guests,
-    //     table_id: req.body.table_id
+    //     number_of_guests: req.body.number_of_guests
     // })
-    .then(() => {
-        knex.select()
-        .from('reservation')
-        .then((reservations) => {
-            res.status(201).json({reservations});
-        }).catch((err) => {
-            res.status(404).json({err});
-        })
-    }).catch((err) => {
+    .catch((err) => {
         res.status(400).json({err});
     })
 })
